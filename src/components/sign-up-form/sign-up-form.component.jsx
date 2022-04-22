@@ -12,7 +12,6 @@ const defaultFormFields = {
 const SignUpForm = ()=>{
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {displayName, email, password, confirmPassword} = formFields;
-
     const resetFormFields = ()=>{
         setFormFields(defaultFormFields);
     }
@@ -26,7 +25,6 @@ const SignUpForm = ()=>{
         if (formFields.password === formFields.confirmPassword) {
             try {
             const {user} = await createAuthUserWithEmailAndPassword(email,password)
-            
             await createUserDocumentFromAuth(user,{displayName});
             resetFormFields();
             } catch (error) {
@@ -42,12 +40,13 @@ const SignUpForm = ()=>{
         } else {
             alert('password does not match, retry');
             setFormFields({...formFields, password:'', confirmPassword: ''});
+            return;
         }
 
     }
     return (
         <div className='sign-up-container'>
-            <h2>Don't have an account?</h2>
+            <h2>I do not have an account?</h2>
             <span>Sign up with your email and password</span>
             <form onSubmit={handleSubmit}>
                 <FormInput 

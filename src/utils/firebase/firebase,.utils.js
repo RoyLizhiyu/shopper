@@ -1,3 +1,4 @@
+
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
@@ -5,6 +6,9 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import {
   getFirestore,
@@ -34,11 +38,22 @@ const firebaseConfig = {
 
   export const signInWithGooglePopup = ()=>signInWithPopup(auth, googleProvider);
   export const signInWithGoogleRedirect = ()=>signInWithRedirect(auth,googleProvider)
+
+  export const signInAuthUserWithEmailAndPassword = async (email, password)=>{
+    if (! email || !password) return;
+    return await signInWithEmailAndPassword(auth,email, password)
+  }
   export const createAuthUserWithEmailAndPassword = async (email,password)=>{
     if (! email || !password) return;
     return await createUserWithEmailAndPassword(auth,email, password)
 
   }
+
+  export const onAuthStateChangedListener = (callback) => {
+    onAuthStateChanged(auth,callback)
+  };
+
+  export const signOutUser = async ()=> signOut(auth);
   export const db = getFirestore();
 
   export const createUserDocumentFromAuth = async (userAuth, additionalInfo={})=>{
